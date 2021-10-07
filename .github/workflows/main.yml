@@ -8,17 +8,19 @@ jobs:
     steps:      
       - name: Copy repo
         uses: actions/checkout@v2
+        
+      - name: Create docker network
+        run: docker network create --driver bridge internal_net
               
       - name: set image for build 
-        run: | 
+        run: |          
           docker build -t spring_boot .
-          docker run --name Try -dp 8080:8080 spring_boot
+          docker run --name Try -dp 8080:8080 spring_boot --network internal_net
           
       - name: second check
         run: |
-          docker ps -a
-          echo " "
           docker ps
+          docker network ls
           
       - name: send requests
         run: |
