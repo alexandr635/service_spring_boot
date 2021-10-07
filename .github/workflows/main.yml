@@ -10,12 +10,23 @@ jobs:
         #image: maven:3.3-jdk-8        
   
     steps:
+      - name: Cd
+        run: |
+          mkdir repo
+          cd repo
+      
       - name: Copy repo
         uses: actions/checkout@v2
-      
-      - name: set container for build
+        
+      - name: first check
         run: |
-          echo "BRANCH=one" >> $GITHUB_ENV
-          echo $GITHUB_ENV
-          echo "SECOND=two" >> $GITHUB_ENV
-          echo $GITHUB_ENV
+          cd ..
+          ls -a
+      
+      - name: set image for build
+        run: |
+          docker build -t Application .
+          docker run Application
+          
+      - name: second check
+        run: docker ps
