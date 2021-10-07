@@ -17,5 +17,5 @@ jobs:
         run: |
           echo "one" >> $GITHUB_ENV
           echo $GITHUB_ENV
-          ehco "two >> $GITHUB_ENV
+          ehco "two" >> $GITHUB_ENV
           echo $GITHUB_ENV
