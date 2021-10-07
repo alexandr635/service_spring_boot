@@ -9,22 +9,10 @@ jobs:
       #build:
         #image: maven:3.3-jdk-8        
   
-    steps:
-      #- name: Cd
-       # run: |
-        #  mkdir repo
-       #   cd repo
-      
+    steps:      
       - name: Copy repo
         uses: actions/checkout@v2
-        
-      - name: first check
-        run: |
-          cd ..
-          ls -a
-          cd service_spring_boot
-          ls -a
-      
+              
       - name: set image for build
         run: |
           ls
