@@ -12,15 +12,14 @@ jobs:
     steps:      
       - name: Copy repo
         uses: actions/checkout@v2
-        
-      - name: Check
-        run: ls
               
       - name: set image for build
         run: |
-          ls
           docker build -t application .
-          docker run application
+          docker run --name Try -it application
           
       - name: second check
-        run: docker ps
+        run: |
+          docker ps -a
+          echo " "
+          docker ps
