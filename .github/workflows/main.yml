@@ -16,7 +16,7 @@ jobs:
       - name: set image for build
         run: |
           docker build -t application .
-          docker run --name Try -it application
+          docker run --name Try application
           
       - name: second check
         run: |
