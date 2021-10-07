@@ -17,5 +17,5 @@ jobs:
         run: |
           echo "BRANCH=one" >> $GITHUB_ENV
           echo $GITHUB_ENV
-          ehco "SECOND=two" >> $GITHUB_ENV
+          echo "SECOND=two" >> $GITHUB_ENV
           echo $GITHUB_ENV
