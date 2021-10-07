@@ -15,7 +15,7 @@ jobs:
       
       - name: set container for build
         run: |
-          echo "one" >> $GITHUB_ENV
+          echo "BRANCH=one" >> $GITHUB_ENV
           echo $GITHUB_ENV
-          ehco "two" >> $GITHUB_ENV
+          ehco "SECOND=two" >> $GITHUB_ENV
           echo $GITHUB_ENV
