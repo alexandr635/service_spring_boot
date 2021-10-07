@@ -3,11 +3,7 @@ on: push
   
 jobs:
   Spring_job:
-    runs-on: ubuntu-latest
-    
-    #services:
-      #build:
-        #image: maven:3.3-jdk-8        
+    runs-on: ubuntu-latest       
   
     steps:      
       - name: Copy repo
@@ -15,8 +11,8 @@ jobs:
               
       - name: set image for build
         run: | 
-          docker build -t application .
-          docker run --name Try application
+          docker build -t spring_boot .
+          docker run --name Try -dp 8080:8080 spring_boot
           
       - name: second check
         run: |
