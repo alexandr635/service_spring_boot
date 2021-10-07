@@ -15,17 +15,14 @@ jobs:
       - name: set image for build 
         run: docker build -t spring_boot .
         
-      #- name: run application container
-      #  run: docker run --name Try -dp 8080:8080 --net=internal_net --ip=10.10.0.3 spring_boot
-      
-      - name: run application container2
-        run: docker run --name Try -dp 8080:8080 spring_boot
-          
+      - name: run application container
+        run: docker run --name Try -dp 8080:8080 --net=internal_net --ip=10.10.0.3 spring_boot
+                
       - name: check
         run: docker inspect Try
           
       - name: send requests
-        run: curl http://172.17.0.2:8080?id=3
+        run: curl http://10.10.0.3:8080?id=3
         
         #curl http://10.10.0.3:8080?id=4
           #curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
