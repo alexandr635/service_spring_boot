@@ -16,7 +16,7 @@ jobs:
         run: docker build -t spring_boot .
         
       - name: run application container
-        run: docker run --name Try -dp 8080:8080 --net=internal_net --ip=10.10.0.3 spring_boot
+        run: docker run --name Try -dp 8080:8080 --net=internal_net --ip=10.10.0.3 spring_boot 
                 
       - name: check
         run: docker inspect Try
