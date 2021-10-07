@@ -18,14 +18,8 @@ jobs:
       - name: run application container
         run: docker run --name Try -dp 8080:8080 --net=internal_net --ip=10.10.0.3 spring_boot
           
-      - name: second check
-        run: docker ps
-        
-      - name: third check
-        run: docker network ls
-          
       - name: send requests
-        run: |
-          curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
-          echo "start new"
-          curl http://10.10.0.3:8080?id=4
+        run: curl http://10.10.0.3:8080?id=4
+          #curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
+          #echo "start new"
+          
