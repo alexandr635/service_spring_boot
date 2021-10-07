@@ -25,7 +25,7 @@ jobs:
         run: docker inspect Try
           
       - name: send requests
-        run: curl http://172.17.0.2?id=3
+        run: curl http://172.17.0.2:8080?id=3
         
         #curl http://10.10.0.3:8080?id=4
           #curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
