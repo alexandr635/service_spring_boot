@@ -12,6 +12,9 @@ jobs:
     steps:      
       - name: Copy repo
         uses: actions/checkout@v2
+        
+      - name: Check
+        run: ls
               
       - name: set image for build
         run: |
