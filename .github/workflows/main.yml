@@ -1,14 +1,13 @@
 name: Spring_test
-on:
-  push:
+on: push
   
 jobs:
   Spring_job:
     runs-on: ubuntu-latest
     
-    services:
-      build:
-        image: maven:3.3-jdk-8        
+    #services:
+      #build:
+        #image: maven:3.3-jdk-8        
   
     steps:
       - name: Copy repo
