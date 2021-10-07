@@ -9,7 +9,7 @@ jobs:
       - name: Copy repo
         uses: actions/checkout@v2
               
-      - name: set image for build
+      - name: set image for build 
         run: | 
           docker build -t spring_boot .
           docker run --name Try -dp 8080:8080 spring_boot
