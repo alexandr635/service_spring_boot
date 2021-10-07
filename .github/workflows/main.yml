@@ -27,6 +27,7 @@ jobs:
       
       - name: set image for build
         run: |
+          ls
           docker build -t application .
           docker run application
           
