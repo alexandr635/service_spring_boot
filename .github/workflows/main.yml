@@ -19,3 +19,9 @@ jobs:
           docker ps -a
           echo " "
           docker ps
+          
+      - name: send requests
+        run: |
+          curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:8080
+          echo "start new"
+          curl http://localhost:8080?id=4
