@@ -1,4 +1,4 @@
 FROM maven
-COPY service_spring_boot/ .
+COPY . .
 CMD ls
 CMD mvn package
