@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest       
   
     steps:      
-      - name: Copy repo
+      - name: Copy repo 
         uses: actions/checkout@v2
         
       - name: Create docker network
