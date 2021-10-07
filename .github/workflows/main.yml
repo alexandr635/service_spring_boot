@@ -22,6 +22,8 @@ jobs:
         run: |
           cd ..
           ls -a
+          cd service_spring_boot
+          ls -a
       
       - name: set image for build
         run: |
