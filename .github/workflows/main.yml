@@ -8,19 +8,18 @@ jobs:
     #запускаем на последней убунте
     runs-on: ubuntu-latest       
     #определяем, что нужно выполнить раннеру
-    steps:            
-      - name: check
-        run: ls
-        
+    steps:                    
       - name: make dir
         run: mkdir repo && cd repo
-        
-      - name: check
-        run: ls
-      
+           
       - name: Copy repo 
         #копируем репозиторий на раннер
         uses: actions/checkout@v2
+        with:
+          path: 'repo/'
+          
+      - name: check
+        run: cd repo && ls
         
       - name: build app
         run: docker run --rm --name Maven -v /:/ maven:3.3-jdk-8 mvn clean package
