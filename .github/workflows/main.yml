@@ -26,6 +26,9 @@ jobs:
       - name: check
         run: docker inspect ${{ env.APPLICATION_NAME }}
         
+      - name: sleep
+        run: sleep 1m
+        
       - name: curl
         run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.12:5050/?id=4 &
         
