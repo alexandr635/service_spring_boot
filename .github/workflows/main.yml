@@ -32,6 +32,9 @@ jobs:
       - name: sleep
         run: sleep 1m
         
+      - name: get1
+        run: curl -L -v http://10.10.0.1:5050/?id=4
+        
       - name: get data from service
         run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
                 
