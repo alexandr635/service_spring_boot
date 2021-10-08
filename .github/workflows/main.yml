@@ -1,4 +1,8 @@
 name: Spring_test
+
+env:
+  APPLICATION_DIR: repo
+
 #при пуше в репозиторий
 on: push
 #блок определения раннеров(вм) 
@@ -6,23 +10,24 @@ jobs:
   #первый раннер
   Spring_job:
     #запускаем на последней убунте
-    runs-on: ubuntu-latest       
+    runs-on: ubuntu-latest   
     #определяем, что нужно выполнить раннеру
     steps:                    
       - name: make dir
-        run: mkdir repo && cd repo
+        run: mkdir ${{ env.APPLICATION_DIV }}
            
       - name: Copy repo 
         #копируем репозиторий на раннер
         uses: actions/checkout@v2
+        
         with:
-          path: 'repo/'
+          path: ${{ env.APPLICATION_DIV }}
         
       - name: build app
-        run: docker run --rm --name Maven -v "$(pwd)/repo":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
+        run: docker run --rm --name Maven -v "$(pwd)/${{ env.APPLICATION_DIV }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
         
-      - name: check
-        run: cd repo && ls
+      - name: run app
+        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIV }}":/usr/src/mymaven -w /usr/src/mymaven java -jar target/demo-0.0.1-SNAPSHOT.jar
         
       #- name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
