@@ -10,13 +10,13 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Create docker network
-        run: docker network create -d bridge --subnet=10.10.0.0/8 internal_net
+        run: docker network create -d bridge --subnet=172.16.0.0/8 internal_net
               
       - name: set image for build
         run: docker build -t spring_boot .
         
       - name: run application container
-        run: docker run --name Try -d -p 5050:8080 --net=internal_net --ip=10.10.0.3 spring_boot 
+        run: docker run --name Try -d -p 5050:8080 --net=internal_net --ip=172.16.0.3 spring_boot 
                 
       - name: check
         run: docker inspect Try
