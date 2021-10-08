@@ -22,7 +22,7 @@ jobs:
         run: ls && pwd
         
       - name: build app
-        run: docker run --rm --name Maven -v "$(pwd)":/usr/src/mymaven maven:3.3-jdk-8 ls
+        run: docker run --rm --name Maven -v "$(pwd)":/usr/src/mymaven maven:3.3-jdk-8 cd usr/src/mymaven && ls
         # mvn clean package
         
       - name: check
