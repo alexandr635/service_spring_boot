@@ -14,20 +14,20 @@ jobs:
     #определяем, что нужно выполнить раннеру
     steps:                    
       - name: make dir
-        run: mkdir ${{ env.APPLICATION_DIV }}
+        run: mkdir ${{ env.APPLICATION_DIR }}
            
       - name: Copy repo 
         #копируем репозиторий на раннер
         uses: actions/checkout@v2
         
         with:
-          path: ${{ env.APPLICATION_DIV }}
+          path: ${{ env.APPLICATION_DIR }}
         
       - name: build app
-        run: docker run --rm --name Maven -v "$(pwd)/${{ env.APPLICATION_DIV }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
+        run: docker run --rm --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
         
       - name: run app
-        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIV }}":/usr/src/mymaven -w /usr/src/mymaven java -jar target/demo-0.0.1-SNAPSHOT.jar
+        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven java -jar target/demo-0.0.1-SNAPSHOT.jar
         
       #- name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
