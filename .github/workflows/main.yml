@@ -17,12 +17,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: 'repo/'
-          
-      - name: check
-        run: cd repo && ls
         
       - name: build app
-        run: docker run --rm --name Maven -v /:/ maven:3.3-jdk-8 mvn clean package
+        run: docker run --rm --name Maven -v repo:/repo maven:3.3-jdk-8 mvn clean package
         
       - name: check
         run: ls
