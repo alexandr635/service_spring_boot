@@ -25,7 +25,7 @@ jobs:
         run: docker inspect Try
         
       - name: send requests
-        run: curl -v http://localhost:5050?id=3 --retry 3
+        run: curl -v --no-tcp-nodelay http://localhost:5050?id=3 --retry 3
         
       - name: send requests22
         run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
