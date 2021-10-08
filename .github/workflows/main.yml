@@ -27,10 +27,10 @@ jobs:
         run: docker inspect ${{ env.APPLICATION_NAME }}
         
       - name: curl
-        run: docker run --name curl -i --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.12:5050/?id=4
+        run: docker run --name curl -d --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.12:5050/?id=4
         
       #- name: send requests
-      #  run: curl -v --no-tcp-nodelay http://localhost:5050?id=3 --retry 3
+      #  run: curl -v --no-tcp-nodelay -d http://localhost:5050?id=3 --retry 3
         
       #- name: send requests22
       #  run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
