@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest       
   
     steps:      
+      - name: Update
+        run: sudo apt update
+      
       - name: Copy repo 
         uses: actions/checkout@v2
         
@@ -26,10 +29,3 @@ jobs:
         
       - name: send requests22
         run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
-      
-      
-        
-        #curl http://10.10.0.3:8080?id=4
-          #curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
-          #echo "start new"
-          
