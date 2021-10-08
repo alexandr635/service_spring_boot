@@ -1,10 +1,13 @@
 name: Spring_test
+#при пуше в репозиторий
 on: push
-  
+#блок определения раннеров(вм) 
 jobs:
+  #первый раннер
   Spring_job:
+    #запускаем на последней убунте
     runs-on: ubuntu-latest       
-  
+    #определяем, что нужно выполнить раннеру
     steps:            
       - name: Copy repo 
         #копируем репозиторий на раннер
@@ -25,6 +28,9 @@ jobs:
         #--net internal_net - указываем, в какой сети работает контейнер
         #--ip 10.10.0.12 - задаем ip
         run: docker run --name apptry -d -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot
+        
+      - name: sleep
+        run: sleep 1m
         
       - name: get data from service
         run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
