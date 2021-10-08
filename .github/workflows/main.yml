@@ -15,21 +15,29 @@ jobs:
     #определяем, что нужно выполнить раннеру
     steps:                    
       - name: make dir
+        #создаем директорию, в которой будет наше приложение
         run: mkdir ${{ env.APPLICATION_DIR }}
            
       - name: Copy repo 
         #копируем репозиторий на раннер
-        uses: actions/checkout@v2        
+        uses: actions/checkout@v2  
+        #указываем входные данные
         with:
+          #директория, в которую копируется репозиторий
           path: ${{ env.APPLICATION_DIR }}
           
       - name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
-        run: docker network create -d bridge --subnet=10.10.0.0/24 ${{ env.APPLICATION_NET }}
+        run: docker network create 
+          -d bridge 
+          --subnet=10.10.0.0/24 ${{ env.APPLICATION_NET }}
                   
       - name: build app
         #создаем контейнер для билда приложения
-        run: docker run 
+        #--rm - удаляем после окончания 
+        #maven - образ, из которого строится контейнер
+        #mvn clean package - команда, которая выполнится при создании контейнера
+        run: docker run
           --rm
           --name Build 
           -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven 
@@ -39,29 +47,40 @@ jobs:
                         
       - name: run app
         #создаем контейнер, в котором запускаем приложение
-        run: docker run --name App \
-          -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven \
-          -w /usr/src/mymaven \
-          -d \
-          -p 5050:8080 \
-          --net ${{ env.APPLICATION_NET }} \
-          --ip 10.10.0.12 \
-          maven \
-          java -jar target/demo-0.0.1-SNAPSHOT.jar
-       
-      #- name: run application container
-        #запускаем контейнер apptry
         #-d - запускаем в фоновом процессе, чтоб не висело
         #-p 5050:8080 - прокидываем порт, на котором работает приложение (8080) на порт контейнера (5050)
         #--net internal_net - указываем, в какой сети работает контейнер
         #--ip 10.10.0.12 - задаем ip
-      #  run: docker run --name apptry  spring_boot
-        
+        run: docker run --name App
+          -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven
+          -w /usr/src/mymaven
+          -d
+          -p 5050:8080
+          --net ${{ env.APPLICATION_NET }}
+          --ip 10.10.0.12
+          maven
+          java -jar target/demo-0.0.1-SNAPSHOT.jar
+               
       - name: sleep
-        run: sleep 20
+        #немного ждем, чтобы наш сервис точно запустился
+        run: sleep 10
                 
       - name: add data to service
-        run: docker run --rm --name curl --net ${{ env.APPLICATION_NET }} --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
+        #запускаем контейнер, который добавляет данные в приложение
+        run: docker run 
+          --rm 
+          --name curl 
+          --net ${{ env.APPLICATION_NET }} 
+          --ip 10.10.0.15 
+          curlimages/curl:latest 
+          -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
          
       - name: get data from service
-        run: docker run --rm --name curl --net ${{ env.APPLICATION_NET }} --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
+        #запускаем контейнер, которые запрашивает данные из приложения
+        run: docker run 
+          --rm
+          --name curl 
+          --net ${{ env.APPLICATION_NET }} 
+          --ip 10.10.0.15 
+          curlimages/curl:latest 
+          -L -v http://10.10.0.1:5050/?id=4
