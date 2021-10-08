@@ -28,15 +28,22 @@ jobs:
         #--ip 10.10.0.12 - задаем ip
         run: docker run --name ${{ env.APPLICATION_NAME }} -d -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot
                 
-      - name: check
+      - name: check1
         #проверяем настройки контейнера apptry
         run: docker inspect ${{ env.APPLICATION_NAME }}
+        
+      - name: check2
+        #проверяем настройки контейнера apptry
+        run: docker inspect internal_net
                 
-      #- name: curl2
-      #  run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4 &
+      - name: curl1
+        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4 &
+        
+      - name: curl2
+        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 &
         
         
-      - name: send requests22
-        run: curl -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 &
-      - name: send requests
-        run: curl -L -v http://10.10.0.1:5050?id=3 &       
+      #- name: send requests22
+      #  run: curl -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 &
+      #- name: send requests
+      #  run: curl -L -v http://10.10.0.1:5050?id=3 &       
