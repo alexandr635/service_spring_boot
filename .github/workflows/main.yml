@@ -29,9 +29,8 @@ jobs:
                   
       - name: build app
         #создаем контейнер для билда приложения
-        run: |
-          docker run 
-          --rm 
+        run: docker run \n
+          --rm \n
           --name Build 
           -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven 
           -w /usr/src/mymaven 
