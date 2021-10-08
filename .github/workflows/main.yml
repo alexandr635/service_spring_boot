@@ -29,7 +29,14 @@ jobs:
                   
       - name: build app
         #создаем контейнер для билда приложения
-        run: docker run --rm --name Build -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
+        run: |
+          docker run 
+          --rm 
+          --name Build 
+          -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven 
+          -w /usr/src/mymaven 
+          maven 
+          mvn clean package
                         
       - name: run app
         #создаем контейнер, в котором запускаем приложение
