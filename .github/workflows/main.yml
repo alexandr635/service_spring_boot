@@ -22,7 +22,7 @@ jobs:
         run: ls && pwd
         
       - name: build app
-        run: docker run --rm --name Maven -v /home/runner/work/service_spring_boot/service_spring_boot/repo:/ maven:3.3-jdk-8 mvn clean package
+        run: docker run --rm --name Maven -v /home/runner/work/service_spring_boot/service_spring_boot/repo:/usr/src/mymaven maven:3.3-jdk-8 mvn clean package
         
       - name: check
         run: ls && pwd
