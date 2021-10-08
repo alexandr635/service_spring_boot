@@ -37,10 +37,10 @@ jobs:
         run: docker inspect internal_net
                 
       - name: curl1
-        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4 &
+        run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
         
       - name: curl2
-        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 &
+        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
         
         
       #- name: send requests22
