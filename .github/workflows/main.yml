@@ -13,33 +13,39 @@ jobs:
         #копируем репозиторий на раннер
         uses: actions/checkout@v2
         
-      - name: Create docker network
-        #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
-        run: docker network create -d bridge --subnet=10.10.0.0/24 internal_net
-              
-      - name: set image for build
-        #создаем образ spring_boot на раннере из текущей директории раннера
-        run: docker build -t spring_boot .
+      - name: build app
+        run: docker run --rm --name Maven -v .:. maven:3.3-jdk-8 mvn clean package
         
-      - name: run application container
+      - name: check
+        run: ls
+        
+      #- name: Create docker network
+        #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
+     #   run: docker network create -d bridge --subnet=10.10.0.0/24 internal_net
+              
+      #- name: set image for build
+        #создаем образ spring_boot на раннере из текущей директории раннера
+      #  run: docker build -t spring_boot .
+        
+      #- name: run application container
         #запускаем контейнер apptry
         #-d - запускаем в фоновом процессе, чтоб не висело
         #-p 5050:8080 - прокидываем порт, на котором работает приложение (8080) на порт контейнера (5050)
         #--net internal_net - указываем, в какой сети работает контейнер
         #--ip 10.10.0.12 - задаем ip
-        run: docker run --name apptry -d -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot
+      #  run: docker run --name apptry -d -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot
         
-      - name: sleep
-        run: sleep 1m
+     # - name: sleep
+     #   run: sleep 1m
         
-      - name: get1
-        run: curl -L -v http://10.10.0.1:5050/?id=4
+     # - name: get1
+     #   run: curl -L -v http://10.10.0.1:5050/?id=4
         
-      - name: get data from service
-        run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
+     # - name: get data from service
+     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
                 
-      - name: add data to service
-        run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
+     # - name: add data to service
+     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
          
-      - name: get data from service
-        run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
+      #- name: get data from service
+     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
