@@ -27,7 +27,8 @@ jobs:
         run: docker run --rm --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
         
       - name: run app
-        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven java -jar target/demo-0.0.1-SNAPSHOT.jar
+        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven ls
+        #java -jar target/demo-0.0.1-SNAPSHOT.jar
         
       #- name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
