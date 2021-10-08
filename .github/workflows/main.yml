@@ -9,6 +9,15 @@ jobs:
     runs-on: ubuntu-latest       
     #определяем, что нужно выполнить раннеру
     steps:            
+      - name: check
+        run: ls
+        
+      - name: make dir
+        run: mkdir repo && cd repo
+        
+      - name: check
+        run: ls
+      
       - name: Copy repo 
         #копируем репозиторий на раннер
         uses: actions/checkout@v2
