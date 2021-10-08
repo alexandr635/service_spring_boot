@@ -7,36 +7,36 @@ jobs:
   Spring_job:
     runs-on: ubuntu-latest       
   
-    steps:      
-      #- name: Update
-      #  run: sudo apt update && sudo apt dist-upgrade
-      
+    steps:            
       - name: Copy repo 
+        #копируем репозиторий на раннер
         uses: actions/checkout@v2
         
       - name: Create docker network
+        #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
         run: docker network create -d bridge --subnet=10.10.0.0/24 internal_net
               
       - name: set image for build
+        #создаем образ spring_boot на раннере из текущей директории раннера
         run: docker build -t spring_boot .
         
       - name: run application container
-        run: docker run --name ${{ env.APPLICATION_NAME }} -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot &
+        #запускаем контейнер apptry
+        #-d - запускаем в фоновом процессе, чтоб не висело
+        #-p 5050:8080 - прокидываем порт, на котором работает приложение (8080) на порт контейнера (5050)
+        #--net internal_net - указываем, в какой сети работает контейнер
+        #--ip 10.10.0.12 - задаем ip
+        run: docker run --name ${{ env.APPLICATION_NAME }} -d -p 5050:8080 --net internal_net --ip 10.10.0.12 spring_boot
                 
       - name: check
+        #проверяем настройки контейнера apptry
         run: docker inspect ${{ env.APPLICATION_NAME }}
+                
+      #- name: curl2
+      #  run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4 &
         
-      #- name: sleep
-      #  run: sleep 1m
         
-      - name: curl1
-        run: curl -v http://google.com
-        
-      - name: curl2
-        run: docker run --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4 &
-        
-      #- name: send requests
-      #  run: curl -v --no-tcp-nodelay -d http://10.10.0.1:5050?id=3 --retry 3
-        
-      #- name: send requests22
-      #  run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
+      - name: send requests22
+        run: curl -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 &
+      - name: send requests
+        run: curl -L -v http://10.10.0.1:5050?id=3 &       
