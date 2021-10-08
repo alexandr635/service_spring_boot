@@ -27,7 +27,7 @@ jobs:
         run: docker inspect ${{ env.APPLICATION_NAME }}
         
       - name: curl
-        run: docker run --rm --network internal_net --ip 10.10.0.13 curlimages/curl:latest http://10.10.0.12:5050/?id=4
+        run: docker run --name curl -d --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.12:5050/?id=4
         
       - name: send requests
         run: curl -v --no-tcp-nodelay http://localhost:5050?id=3 --retry 3
