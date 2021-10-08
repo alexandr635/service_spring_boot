@@ -18,19 +18,21 @@ jobs:
            
       - name: Copy repo 
         #копируем репозиторий на раннер
-        uses: actions/checkout@v2
-        
+        uses: actions/checkout@v2        
         with:
           path: ${{ env.APPLICATION_DIR }}
+          
+      - name: check1
+        run: cd repo/target && ls
         
       - name: build app
-        run: docker run --rm --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
+        run: docker run --rm --name Build -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean package
         
-      - name: check
-        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven ls
-        
+      - name: check2
+        run: cd repo/target && ls
+                
       - name: run app
-        run: docker run --name Maven -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven java -jar target/demo-0.0.1-SNAPSHOT.jar
+        run: docker run --name App -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven maven java -jar target/demo-0.0.1-SNAPSHOT.jar
         
       #- name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
