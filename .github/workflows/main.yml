@@ -17,12 +17,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: 'repo/'
+          
+      - name: check
+        run: ls && pwd
         
       - name: build app
         run: docker run --rm --name Maven -v repo:repo maven:3.3-jdk-8 mvn clean package
         
       - name: check
-        run: ls
+        run: ls && pwd
         
       #- name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
