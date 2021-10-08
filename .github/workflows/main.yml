@@ -2,6 +2,7 @@ name: Spring_test
 
 env:
   APPLICATION_DIR: repo
+  APPLICATION_NET: local_net
 
 #при пуше в репозиторий
 on: push
@@ -24,7 +25,7 @@ jobs:
           
       - name: Create docker network
         #создаем сеть 10.10.0.0 с маской 24 с драйвером bridge        
-        run: docker network create -d bridge --subnet=10.10.0.0/24 internal_net
+        run: docker network create -d bridge --subnet=10.10.0.0/24 ${{ env.APPLICATION_NET }}
                   
       - name: build app
         #создаем контейнер для билда приложения
@@ -32,7 +33,15 @@ jobs:
                         
       - name: run app
         #создаем контейнер, в котором запускаем приложение
-        run: docker run --name App -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven -w /usr/src/mymaven -d -p 5050:8080 --net internal_net --ip 10.10.0.12 maven java -jar target/demo-0.0.1-SNAPSHOT.jar
+        run: docker run --name App \
+          -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven \
+          -w /usr/src/mymaven \
+          -d \
+          -p 5050:8080 \
+          --net ${{ env.APPLICATION_NET }} \
+          --ip 10.10.0.12 \
+          maven \
+          java -jar target/demo-0.0.1-SNAPSHOT.jar
        
       #- name: run application container
         #запускаем контейнер apptry
@@ -43,16 +52,10 @@ jobs:
       #  run: docker run --name apptry  spring_boot
         
       - name: sleep
-        run: sleep 1m
-        
-      - name: get1
-        run: curl -L -v http://10.10.0.1:5050/?id=4
-        
-     # - name: get data from service
-     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
+        run: sleep 20
                 
-     # - name: add data to service
-     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
+      - name: add data to service
+        run: docker run --rm --name curl --net ${{ env.APPLICATION_NET }} --ip 10.10.0.15 curlimages/curl:latest -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
          
-      #- name: get data from service
-     #   run: docker run --rm --name curl --net internal_net --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
+      - name: get data from service
+        run: docker run --rm --name curl --net ${{ env.APPLICATION_NET }} --ip 10.10.0.15 curlimages/curl:latest -L -v http://10.10.0.1:5050/?id=4
