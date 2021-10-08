@@ -9,20 +9,20 @@ jobs:
       - name: Copy repo 
         uses: actions/checkout@v2
         
-      - name: Create docker network
-        run: docker network create -d bridge --subnet=17.16.0.0/24 internal_net
+      #- name: Create docker network
+      #  run: docker network create -d bridge --subnet=17.16.0.0/24 internal_net
               
       - name: set image for build
         run: docker build -t spring_boot .
         
       - name: run application container
-        run: docker run --name Try -d -p 5050:8080 --net=internal_net spring_boot 
+        run: docker run --name Try -d -p 5050:8080 spring_boot 
                 
       - name: check
         run: docker inspect Try
         
       - name: send requests
-        run: curl -v http://17.16.0.1:5050?id=3 --retry 3
+        run: curl -v http://localhost:5050?id=3 --retry 3
         
       - name: send requests
         run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
