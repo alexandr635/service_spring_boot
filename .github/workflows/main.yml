@@ -19,7 +19,7 @@ jobs:
           path: 'repo/'
         
       - name: build app
-        run: docker run --rm --name Maven -v repo:/repo maven:3.3-jdk-8 mvn clean package
+        run: docker run --rm --name Maven -v repo:repo maven:3.3-jdk-8 mvn clean package
         
       - name: check
         run: ls
