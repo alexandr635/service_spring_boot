@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Create docker network
-        run: docker network create -d bridge --subnet=10.10.0.0/8 --gateway=10.10.0.1 internal_net
+        run: docker network create -d bridge --subnet=10.10.0.0/8 internal_net
               
       - name: set image for build
         run: docker build -t spring_boot .
@@ -22,10 +22,10 @@ jobs:
         run: docker inspect Try
         
       - name: send requests
-        run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 --retry 3
+        run: curl -X POST -v -F 'id=4' -F 'name=Aleks' http://localhost:5050 --retry 3
       
       - name: send requests
-        run: curl http://10.10.0.1:5050?id=3 --retry 3
+        run: curl http://localhost:5050?id=3 --retry 3
         
         #curl http://10.10.0.3:8080?id=4
           #curl -X POST -v -F 'id=4' -F 'name=Aleks' http://10.10.0.3:8080
