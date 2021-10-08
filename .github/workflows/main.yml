@@ -1,7 +1,7 @@
 name: Spring_test
 
 env:
-  APPLICATION_DIR: repo
+  APPLICATION_DIR: shared_dir
   APPLICATION_NET: local_net
 
 #при пуше в репозиторий
@@ -51,6 +51,7 @@ jobs:
         #-p 5050:8080 - прокидываем порт, на котором работает приложение (8080) на порт контейнера (5050)
         #--net internal_net - указываем, в какой сети работает контейнер
         #--ip 10.10.0.12 - задаем ip
+        #java -jar target/demo-0.0.1-SNAPSHOT.jar - команда, которая выполнится при создании контейнера
         run: docker run --name App
           -v "$(pwd)/${{ env.APPLICATION_DIR }}":/usr/src/mymaven
           -w /usr/src/mymaven
@@ -67,6 +68,7 @@ jobs:
                 
       - name: add data to service
         #запускаем контейнер, который добавляет данные в приложение
+        #-X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050 - параметры для curl
         run: docker run 
           --rm 
           --name curl 
@@ -76,7 +78,8 @@ jobs:
           -X POST -L -v -F 'id=4' -F 'name=Aleks' http://10.10.0.1:5050
          
       - name: get data from service
-        #запускаем контейнер, которые запрашивает данные из приложения
+        #запускаем контейнер, который запрашивает данные из приложения
+        #-L -v http://10.10.0.1:5050/?id=4 - параметры для curl
         run: docker run 
           --rm
           --name curl 
